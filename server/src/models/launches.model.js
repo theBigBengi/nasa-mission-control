@@ -1,33 +1,79 @@
+const Launch = require("./launches.mongo");
+const Planet = require("./planets.mongo");
 const launches = new Map();
 
-let lastFlightNumber = 100;
+const DEFAULT_FLIGHT_NUMBER = 1000;
 
-function getAllLaunches() {
-  return Array.from(launches.values());
+async function getAllLaunches() {
+  try {
+    return await Launch.find({}, { __v: 0 });
+  } catch (err) {}
 }
 
-function addNewLaunch(launche) {
-  lastFlightNumber++;
-  const newLaunch = Object.assign(launche, {
-    flightNumber: lastFlightNumber,
-    launchesDate: new Date(launche.launchesDate),
-    upcoming: true,
-    success: true,
-    customers: ["dor"],
-  });
-  launches.set(lastFlightNumber, newLaunch);
+async function addNewLaunch(launche) {
+  let lastFlightNumber = (await getLastFlightNumber()) + 1;
+
+  // Save launch on DB
+  await createLaunch(
+    Object.assign(launche, {
+      flightNumber: lastFlightNumber,
+      launchDate: new Date(launche.launchDate),
+      upcoming: true,
+      success: true,
+      customers: ["dor"],
+    })
+  );
 }
 
-function launchIsExist(launcheId) {
-  return launches.has(launcheId);
+//
+async function launchIsExist(launchId) {
+  return await Launch.findOne({ flightNumber: launchId });
 }
 
-function abortLaunch(launcheId) {
-  const aborted = launches.get(launcheId);
-  aborted.upcoming = false;
-  aborted.success = false;
+// Get the last flight number
+async function getLastFlightNumber() {
+  const flight = await Launch.findOneAndUpdate().sort("-flightNumber");
 
-  return aborted;
+  // If there is no flights
+  if (!flight) {
+    return DEFAULT_FLIGHT_NUMBER;
+  }
+
+  return flight.flightNumber;
+}
+
+async function abortLaunch(launcheId) {
+  const aborted = await Launch.updateOne(
+    {
+      flightNumber: launcheId,
+    },
+    {
+      upcoming: false,
+      success: false,
+    }
+  );
+
+  return aborted.modifiedCount === 1;
+}
+
+async function createLaunch(launch) {
+  try {
+    const planet = await Planet.findOne({ keplerName: launch.target });
+
+    if (!planet)
+      throw new Error(`There is no planet with the name ${launch.target}`);
+
+    const newLaunch = await Launch.updateOne(
+      { flightNumber: launch.flightNumber },
+      launch,
+      { upsert: true }
+    );
+
+    // console.log(newLaunch);
+    return newLaunch;
+  } catch (err) {
+    throw err;
+  }
 }
 
 module.exports = {
@@ -35,4 +81,5 @@ module.exports = {
   addNewLaunch,
   abortLaunch,
   launchIsExist,
+  getLastFlightNumber,
 };

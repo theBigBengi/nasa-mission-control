@@ -4,7 +4,8 @@ const API_URL = "http://localhost:5000";
 
 async function httpGetPlanets() {
   try {
-    return await AJAX(`${API_URL}/api/v1/planets`);
+    const response = await fetch(`${API_URL}/api/v1/planets`);
+    return await response.json();
   } catch (err) {
     console.log(err);
   }
@@ -36,6 +37,7 @@ async function httpAbortLaunch(id) {
     const response = await fetch(`${API_URL}/api/v1/launches/${id}`, {
       method: "DELETE",
     });
+
     return response;
   } catch (err) {
     return { ok: false };

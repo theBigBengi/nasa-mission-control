@@ -6,7 +6,7 @@ const {
 } = require("../models/launches.model");
 
 async function httpGetAllLaunches(req, res) {
-  return res.status(200).json(getAllLaunches());
+  return res.status(200).json(await getAllLaunches());
 }
 
 async function httpAddNewLunche(req, res) {
@@ -25,7 +25,7 @@ async function httpAddNewLunche(req, res) {
     });
   }
 
-  addNewLaunch(launch);
+  await addNewLaunch(launch);
 
   return res.status(201).json(launch);
 }
@@ -35,11 +35,12 @@ async function httpDeleteLaunch(req, res) {
 
   if (!launchId) return res.status(400).json({ error: "Missing launch id" });
 
-  if (!launchIsExist(launchId))
-    return res.status(404).json({ error: "Launch do'es not exist" });
+  const launch = await launchIsExist(launchId);
 
-  const abortedLaunch = await abortLaunch(launchId);
-  return res.status(200).json(abortedLaunch);
+  if (!launch) return res.status(404).json({ error: "Launch do'es not exist" });
+
+  const aborted = await abortLaunch(launchId);
+  return res.status(200).json({ aborted });
 }
 
 module.exports = {
