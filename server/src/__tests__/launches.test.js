@@ -7,6 +7,10 @@ describe("LAUNCHES API", () => {
     await mongoConnect();
   });
 
+  afterAll(async () => {
+    await mongoDisconnect();
+  });
+
   describe("TEST GET /launches", () => {
     test("It should responed with 200 status code", async () => {
       await request(app).get("/api/v1/launches").expect(200);

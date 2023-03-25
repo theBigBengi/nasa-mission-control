@@ -1,10 +1,14 @@
 const request = require("supertest");
 const app = require("../app");
-const { mongoConnect } = require("../services/db");
+const { mongoConnect, mongoDisconnect } = require("../services/db");
 
 describe("TEST GET /api/v1/planets", () => {
   beforeAll(async () => {
     await mongoConnect();
+  });
+
+  afterAll(async () => {
+    await mongoDisconnect();
   });
 
   test("Should responed with 200 status code", async () => {
