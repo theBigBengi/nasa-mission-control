@@ -4,12 +4,10 @@ const path = require("path");
 
 const planetsRouter = require("../src/routes/plantes.router");
 const launchesRouter = require("../src/routes/launches.router");
+const api = require("../src/routes/api");
 
 const app = express();
 
-/**
- *  middleweares
- */
 app.use(express.json());
 app.use(
   cors({
@@ -19,11 +17,11 @@ app.use(
 );
 
 app.use(express.static(path.join(__dirname, "..", "public")));
-/**
- *  routes
- */
-app.use("/api/v1/planets", planetsRouter);
-app.use("/api/v1/launches", launchesRouter);
+
+// API routes
+app.use("/api/v1", api);
+
+//
 app.get("/*", function (req, res) {
   res.sendFile(path.join(__dirname, "..", "public", "/index.html"));
 });
