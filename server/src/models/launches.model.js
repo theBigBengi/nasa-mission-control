@@ -66,10 +66,15 @@ async function loadLaunchesData() {
   }
 }
 
-async function getAllLaunches() {
+async function getAllLaunches(skip, limit) {
   try {
-    return await Launch.find({}, { __v: 0 });
-  } catch (err) {}
+    return await Launch.find({}, { __v: 0 })
+      .sort({ flightNumber: 1 })
+      .skip(skip)
+      .limit(limit);
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 async function addNewLaunch(launche) {
