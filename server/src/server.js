@@ -1,8 +1,8 @@
 const http = require("http");
+require("dotenv").config();
 const app = require("./app");
 const { loadPlanetsData } = require("./models/planets.model");
 const { loadLaunchesData } = require("./models/launches.model");
-const mongoose = require("mongoose");
 const { mongoConnect } = require("./services/db");
 
 const PORT = process.env.PORT || 5000;

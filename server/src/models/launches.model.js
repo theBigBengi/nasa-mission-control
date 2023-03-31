@@ -1,7 +1,6 @@
 const Launch = require("./launches.mongo");
 const Planet = require("./planets.mongo");
 const axios = require("axios");
-const DEFAULT_FLIGHT_NUMBER = 1000;
 
 // Load space X launches data
 async function loadLaunchesData() {
@@ -109,7 +108,7 @@ async function getLastFlightNumber() {
 
   // If there is no flights
   if (!flight) {
-    return DEFAULT_FLIGHT_NUMBER;
+    return process.env.DEFAULT_FLIGHT_NUMBER;
   }
 
   return flight.flightNumber;
