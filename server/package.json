@@ -1,5 +1,5 @@
 {
-  "name": "nasa-project-api",
+  "name": "server",
   "version": "1.0.0",
   "description": "NASA Mission Control API",
   "main": "src/server.js",
