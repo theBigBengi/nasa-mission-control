@@ -4,10 +4,6 @@ The NASA Mission Control App is a web application for tracking NASA's space laun
 This project is done for educational purposes.
 you can visit the deployed version of the app at [NASA Mission Control](http://13.48.129.252:8000/launch).
 
-<br />
-
----
-
 ## Getting Started
 
 1. Ensure you have Node.js installed.
@@ -15,18 +11,10 @@ you can visit the deployed version of the app at [NASA Mission Control](http://1
 3. Create a `server/.env` file with a `MONGO_URL` property set to your MongoDB connection string.
 4. In the terminal, run: `npm install`
 
-<br />
-
----
-
 ## Running the Project
 
 1. In the terminal, run: `npm run deploy`
 2. Browse to the mission control frontend at [localhost:8000](http://localhost:8000) and schedule an interstellar launch!
-
-<br />
-
----
 
 ## Docker
 
@@ -34,20 +22,12 @@ you can visit the deployed version of the app at [NASA Mission Control](http://1
 2. Run `docker build -t nasa-project .`
 3. Run `docker run -it -p 8000:8000 nasa-project`
 
-<br />
-
----
-
 ## Running the Tests
 
 To run any automated tests, run `npm test`. This will:
 
 - Run all the client-side tests: `npm test --prefix client`
 - Run all the server-side tests: `npm test --prefix server`
-
-<br />
-
----
 
 ## Acknowledgments
 
