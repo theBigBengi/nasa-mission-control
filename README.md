@@ -1,6 +1,6 @@
 # NASA Mission Control Project
 
-The NASA Mission Control App is a web application for tracking NASA's space launchesץ
+The NASA Mission Control App is a web application for tracking NASA's space launches.
 This project is done for educational purposes.
 you can visit the deployed version of the app at [NASA Mission Control](http://13.48.129.252:8000/launch).
 
